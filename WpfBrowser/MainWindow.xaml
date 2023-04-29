@@ -1,0 +1,38 @@
+﻿<Window x:Class="WpfBrowser.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfBrowser"
+        xmlns:main="clr-namespace:WpfBrowser.Controls.Main"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Row 0: Main Menu and ToolBars -->
+
+        <!-- Row 1: Center -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            
+            <!-- Column 0: Tool Window (If Required)-->
+
+            <!-- Column 1: Main content of this application -->
+            <main:ucMainContent x:Name="MainContent" Grid.Column="1" />
+
+            <!-- Column 2: Tool Window (If Required)-->
+        </Grid>
+
+        <!-- Row 2: Footer as status Bar style -->
+        
+    </Grid>
+</Window>
