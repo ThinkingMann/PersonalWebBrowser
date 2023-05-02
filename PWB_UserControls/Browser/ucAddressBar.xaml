@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="PWB_UserControls.Browser.ucAddressBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PWB_UserControls.Browser"
+             xmlns:cc="clr-namespace:PWB_CCLibrary.Controls;assembly=PWB_CCLibrary"
+             x:Name="AddresBar"
+             mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="800">
+    <Grid>
+        <TextBox x:Name="tbAddress" Padding="30,0,30,0"
+                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                 HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
+                 KeyUp="tbAddress_KeyUp" />
+        
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="3,2,0,2" Width="26"
+                    Background="Transparent">
+            <cc:AddressBarButton x:Name="btnSecure" Margin="0,1" Width="24" ImageSource="{Binding ElementName=AddresBar, Path=SecureImageSource}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="0,2,3,2" Width="26"
+                    Background="Transparent">
+            <cc:AddressBarButton x:Name="btnReload" Margin="0,1" Width="24" ImageSource="{Binding ElementName=AddresBar, Path=ReloadImageSource}" />
+        </StackPanel>
+    </Grid>
+</UserControl>

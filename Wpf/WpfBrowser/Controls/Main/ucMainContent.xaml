@@ -19,8 +19,7 @@
         <!-- Column 1: Web Page Viewer -->
         <GridSplitter Width="3" Grid.Column="1" HorizontalAlignment="Left" Margin="0,2" />
 
-        <Border BorderThickness="1" BorderBrush="Red" Grid.Column="1" Margin="3,2,2,2" />
-        <local:ucBrowser x:Name="TempBrowser" Grid.Column="1" Margin="3,2,2,2" />
+        <local:ucBrowser x:Name="TempBrowser" Url="https://www.amazon.com" Grid.Column="1" Margin="3,2,2,2" />
 
         <!-- Column 2: Helpers (Displayed if required) -->
     </Grid>

@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <Platforms>AnyCPU;x64</Platforms>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+	<PropertyGroup Condition="'$(PlatformTarget)' == 'x64'">
+		<RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x64</RuntimeIdentifier>
+		<SelfContained Condition="'$(SelfContained)' == ''">false</SelfContained>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Assets\TopBarIcons\bookmark.png" />
+	  <None Remove="Assets\TopBarIcons\home.png" />
+	  <None Remove="Assets\TopBarIcons\icons8-back-arrow-64.png" />
+	  <None Remove="Assets\TopBarIcons\icons8-circled-right-64.png" />
+	  <None Remove="Assets\TopBarIcons\icons8-circular-arrow-pointing-to-left-64.png" />
+	  <None Remove="Assets\TopBarIcons\icons8-forward-button-64.png" />
+	  <None Remove="Assets\TopBarIcons\icons8-go-back-64.png" />
+	  <None Remove="Assets\TopBarIcons\icons8-loop-left-rotation-64.png" />
+	  <None Remove="Assets\TopBarIcons\search.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+    <PackageReference Include="CefSharp.Wpf.NETCore" Version="112.3.0" />
+  </ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\PWB_CCLibrary\PWB_CCLibrary.csproj" />
+	  <ProjectReference Include="..\..\PWB_UserControls\PWB_UserControls.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="Assets\TopBarIcons\bookmark.png" />
+	  <Resource Include="Assets\TopBarIcons\home.png" />
+	  <Resource Include="Assets\TopBarIcons\icons8-back-arrow-64.png" />
+	  <Resource Include="Assets\TopBarIcons\icons8-circled-right-64.png" />
+	  <Resource Include="Assets\TopBarIcons\icons8-circular-arrow-pointing-to-left-64.png" />
+	  <Resource Include="Assets\TopBarIcons\icons8-forward-button-64.png" />
+	  <Resource Include="Assets\TopBarIcons\icons8-go-back-64.png" />
+	  <Resource Include="Assets\TopBarIcons\icons8-loop-left-rotation-64.png" />
+	  <Resource Include="Assets\TopBarIcons\search.png" />
+	</ItemGroup>
+
+	
+</Project>
