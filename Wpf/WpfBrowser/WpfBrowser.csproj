@@ -31,8 +31,8 @@
   </ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\PWB_CCLibrary\PWB_CCLibrary.csproj" />
-	  <ProjectReference Include="..\..\PWB_UserControls\PWB_UserControls.csproj" />
+	  <ProjectReference Include="..\PWB_CCLibrary\PWB_CCLibrary.csproj" />
+	  <ProjectReference Include="..\PWB_UserControls\PWB_UserControls.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
