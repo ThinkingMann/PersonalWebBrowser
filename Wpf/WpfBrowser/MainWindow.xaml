@@ -13,7 +13,6 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!-- Row 0: Main Menu and ToolBars -->
 
         <!-- Row 1: Center -->
         <Grid Grid.Row="1">

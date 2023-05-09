@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 using PWB_UserControls.Delegates;
 
@@ -57,6 +58,9 @@ public partial class ucAddressBar : UserControl {
     public ucAddressBar() {
         InitializeComponent();
 
+        //tbAddress.Focusable = false;
+        tbAddress.IsTabStop = false;
+
         this.Loaded += UcAddressBar_Loaded;
     }
     #endregion
@@ -76,10 +80,11 @@ public partial class ucAddressBar : UserControl {
         if (e.Key == System.Windows.Input.Key.Enter) {
             var oa = TargetAddress;
             TargetAddress = tbAddress.Text;
-            TargetAddressChanged?.Invoke( this, new AddressChangedEventArgs() {
-                OldAddress = oa,
-                NewAddress = TargetAddress
-            } );
+
+            // Kill logical focus
+            FocusManager.SetFocusedElement( FocusManager.GetFocusScope( tbAddress ), null );
+            // Kill keyboard focus
+            Keyboard.ClearFocus();
         }
     }
     #endregion

@@ -10,15 +10,15 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         
-        <browser:ucAddressBar x:Name="abTargetAddress"
-                              SecureImageSource="/Assets/TopBarIcons/icons8-circular-arrow-pointing-to-left-64.png"
+        <!--<browser:ucAddressBar x:Name="abTargetAddress"
+                              SecureImageSource="/Assets/TopBarIcons/lock.png"
                               ReloadImageSource="/Assets/TopBarIcons/icons8-loop-left-rotation-64.png"
                               TargetAddressChanged="abTargetAddress_TargetAddressChanged"
-                              />
+                              />-->
         
         <cef:ChromiumWebBrowser x:Name="cwbBrowser" Grid.Row="1" 
                                 Initialized="cwbBrowser_Initialized"

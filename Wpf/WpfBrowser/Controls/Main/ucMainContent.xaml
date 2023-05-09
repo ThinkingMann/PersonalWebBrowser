@@ -4,23 +4,51 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfBrowser.Controls.Main"
+             xmlns:browser="clr-namespace:PWB_UserControls.Browser;assembly=PWB_UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" MinWidth="50" MaxWidth="400" />
-            <ColumnDefinition Width="*" MinWidth="100" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        
-        <!-- Column 0: Tab groups and Tabs -->
-        <local:ucTabbers x:Name="Tabber" />
+        <Grid.RowDefinitions>
+            <!-- Address Bar -->
+            <RowDefinition Height="Auto" />
+            <!-- Bookmarks Or ToolBar -->
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-        <!-- Column 1: Web Page Viewer -->
-        <GridSplitter Width="3" Grid.Column="1" HorizontalAlignment="Left" Margin="0,2" />
+        <!-- Row 0: Address Bar -->
+        <Grid Grid.Row="0" Background="LightBlue">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="197" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="200" />
+            </Grid.ColumnDefinitions>
 
-        <local:ucBrowser x:Name="TempBrowser" Url="https://www.amazon.com" Grid.Column="1" Margin="3,2,2,2" />
+            <browser:ucAddressBar x:Name="abTargetAddress" Height="30" Grid.Column="1" Margin="3,2"
+                                      SecureImageSource="pack://application:,,,/Assets/TopBarIcons/lock.png"
+                                      ReloadImageSource="pack://application:,,,/Assets/TopBarIcons/icons8-loop-left-rotation-64.png"
+                                      TargetAddressChanged="abTargetAddress_TargetAddressChanged"
+                                      />
+        </Grid>
 
-        <!-- Column 2: Helpers (Displayed if required) -->
+        <!-- Row 1: -->
+
+        <!-- Row 2: Tabs and Content -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" MinWidth="50" MaxWidth="400" />
+                <ColumnDefinition Width="*" MinWidth="100" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Column 0: Tab groups and Tabs -->
+            <local:ucTabbers x:Name="Tabber" />
+
+            <!-- Column 1: Web Page Viewer -->
+            <GridSplitter Width="3" Grid.Column="1" HorizontalAlignment="Left" Margin="0,2" />
+            <ContentControl x:Name="ContentCtrl" Grid.Column="1" Margin="3,2,2,2" />
+
+            <!-- Column 2: Helpers (Displayed if required) -->
+        </Grid>
     </Grid>
 </UserControl>

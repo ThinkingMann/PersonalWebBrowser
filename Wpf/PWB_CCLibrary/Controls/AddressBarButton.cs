@@ -19,7 +19,7 @@ public class AddressBarButton : Button {
 
     // Using a DependencyProperty as the backing store for ImageSource.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty ImageSourceProperty =
-                           DependencyProperty.Register("ImageSource", typeof(String), typeof(AddressBarButton), new PropertyMetadata(""));
+                           DependencyProperty.Register(nameof( ImageSource ), typeof(String), typeof(AddressBarButton), new PropertyMetadata(""));
     #endregion
 
     #region protected controle (myViewbox and myImage)
@@ -40,9 +40,6 @@ public class AddressBarButton : Button {
         myViewbox.HorizontalAlignment = HorizontalAlignment.Stretch;
         myViewbox.VerticalAlignment = VerticalAlignment.Stretch;
 
-        PrepareImage();
-
-        this.myViewbox.Child = myImage;
         this.AddChild( myViewbox );
 
         this.Loaded += AddressBarButton_Loaded;
@@ -51,6 +48,7 @@ public class AddressBarButton : Button {
 
     private void AddressBarButton_Loaded( object sender, RoutedEventArgs e ) {
         PrepareImage();
+        this.myViewbox.Child = myImage;
     }
 
     #region PrepareImage() method

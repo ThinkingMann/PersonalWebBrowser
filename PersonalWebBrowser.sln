@@ -18,6 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{937E51FC-B
 	ProjectSection(SolutionItems) = preProject
 		Docs\Attributes.md = Docs\Attributes.md
 		Docs\Codes.md = Docs\Codes.md
+		Docs\ToDo_List.md = Docs\ToDo_List.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PWB_CCLibrary", "Wpf\PWB_CCLibrary\PWB_CCLibrary.csproj", "{C246AED7-FFE3-4D69-908A-4428BD4D33C2}"

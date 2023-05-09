@@ -11,5 +11,13 @@ The below list contains links of the source which I downloaded icons. Thank you 
 - <a href="https://iconscout.com/icons/home" target="_blank">Free Home Icon</a> by <a href="https://iconscout.com/contributors/jemismali">Jemis Mali</a> on <a href="https://iconscout.com">IconScout</a>
 - <a href="https://iconscout.com/icons/bookmark" target="_blank">Free Bookmark Icon</a> by <a href="https://iconscout.com/contributors/elegant-themes">Elegant Themes</a> on <a href="https://iconscout.com">IconScout</a>
 - <a href="https://iconscout.com/icons/search" target="_blank">Free Search Icon</a> by <a href="https://iconscout.com/contributors/hana-arif">Vectors Point</a> on <a href="https://iconscout.com">IconScout</a>
+- <a href="https://iconscout.com/icons/lock" target="_blank">Free Lock Icon</a> by <a href="https://iconscout.com/contributors/mirko-monti" target="_blank">Mirko Monti</a>
+- <a href="https://iconscout.com/icons/chrome" target="_blank">Free Chrome Icon</a> by <a href="https://iconscout.com/contributors/icon-54" target="_blank">Icon 54</a>
+- <a href="https://iconscout.com/icons/pin" target="_blank">Free Pin Icon</a> by <a href="https://iconscout.com/contributors/github" target="_blank">Github</a>
+- <a href="https://iconscout.com/icons/pin" target="_blank">Free Pin Icon</a> by <a href="https://iconscout.com/contributors/daniel-bruce" target="_blank">Daniel Bruce</a>
+- <a href="https://iconscout.com/icons/close" target="_blank">Free Close Icon</a> by <a href="https://iconscout.com/contributors/font-awesome" target="_blank">Font Awesome</a>
+
+
+
 
 

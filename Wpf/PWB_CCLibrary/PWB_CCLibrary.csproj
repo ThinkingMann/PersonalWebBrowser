@@ -4,6 +4,22 @@
     <TargetFramework>net7.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+	<Version>1.0.0.0</Version>
+	<LangVersion>11</LangVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\chrome.png" />
+    <None Remove="Assets\close.png" />
+    <None Remove="Assets\pin.png" />
+    <None Remove="Assets\pinned.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\chrome.png" />
+    <Resource Include="Assets\close.png" />
+    <Resource Include="Assets\pin.png" />
+    <Resource Include="Assets\pinned.png" />
+  </ItemGroup>
 
 </Project>

@@ -1,7 +1,9 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:PWB_CCLibrary">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/PWB_CCLibrary;component/Controls/PWB_TabItem.xaml" />
+    </ResourceDictionary.MergedDictionaries>
     <!--<Style TargetType="{x:Type local:CustomControl1}">
         <Setter Property="Template">
             <Setter.Value>
