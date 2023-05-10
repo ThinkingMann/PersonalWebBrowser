@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -9,7 +11,7 @@ using PWB_CCLibrary.Interfaces;
 
 namespace PWB_CCLibrary.Controls;
 
-public class PWB_TabItem : Control {
+public class PWB_TabItem : Control, INotifyPropertyChanged {
 
     public Func<bool> IsPinOk { get; private set; }
 
@@ -20,6 +22,22 @@ public class PWB_TabItem : Control {
     private static string CloseImageUrl = "pack://application:,,,/PWB_CCLibrary;component/Assets/close.png";
     static PWB_TabItem() {
         DefaultStyleKeyProperty.OverrideMetadata( typeof( PWB_TabItem ), new FrameworkPropertyMetadata( typeof( PWB_TabItem ) ) );
+    }
+    #endregion
+
+    #region members and Properties
+    Stack<string> previousAddresses = new Stack<string>();
+    Stack<string> nextAddresses = new Stack<string>();
+
+    public bool CanGoPreviousPage => previousAddresses.Count > 0;
+    public bool CanGoNextPage => nextAddresses.Count > 0;
+    public string? PreviousAddress => previousAddresses.Count > 0 ? previousAddresses.Peek() : null;
+    public string? NextAddress => nextAddresses.Count > 0 ? nextAddresses.Peek() : null;
+    private void RaiseAddressChangedEvents() {
+        RaisePropertyChanged( nameof( CanGoPreviousPage ) );
+        RaisePropertyChanged( nameof( CanGoNextPage ) );
+        RaisePropertyChanged( nameof( PreviousAddress ) );
+        RaisePropertyChanged( nameof( NextAddress ) );
     }
     #endregion
 
@@ -34,18 +52,30 @@ public class PWB_TabItem : Control {
 
     public static readonly DependencyProperty WebPageImageProperty =
                            DependencyProperty.Register(nameof( WebPageImage ), typeof(string), typeof(PWB_TabItem), new PropertyMetadata( DefaultImage ));
-    //DependencyProperty.Register(nameof( WebPageImage ), typeof(string), typeof(PWB_TabItem), new PropertyMetadata("https://www.google.com/images/branding/googleg/1x/googleg_standard_color_128dp.png"));
 
     public string Address {
         get => (string)GetValue( AddressProperty );
         set {
             if (Address.Equals( value ))
                 return;
-            SetValue( AddressProperty, value );
-            Title = string.Empty;
-            PageTitle = value;
-            WebPanel!.Goto( value );
+            if (!string.IsNullOrEmpty( Address )) {
+                previousAddresses.Push( Address );
+                nextAddresses.Clear();
+                RaiseAddressChangedEvents();
+            }
+            SetAddressProp( value );
+            // SetValue( AddressProperty, value );
+            //Title = string.Empty;
+            //PageTitle = value;
+            //WebPanel!.Goto( value );
         }
+    }
+
+    private void SetAddressProp( string newAddress ) {
+        SetValue( AddressProperty, newAddress );
+        Title = string.Empty;
+        PageTitle = newAddress;
+        WebPanel!.Goto( newAddress );
     }
 
     public static readonly DependencyProperty AddressProperty =
@@ -105,17 +135,10 @@ public class PWB_TabItem : Control {
     #region Event registrations
     public IBrowserPanel? WebPanel { get; set; }
 
-    //public static readonly RoutedEvent TabItemClickEvent = EventManager.RegisterRoutedEvent(nameof( TabItemClick ), RoutingStrategy.Bubble,
-    //                                                                    typeof(RoutedEventArgs), typeof(PWB_TabItem) );
     public static readonly RoutedEvent PinnedChangedClickEvent = EventManager.RegisterRoutedEvent(nameof( PinnedChanged ), RoutingStrategy.Bubble,
                                                                         typeof(RoutedEventArgs), typeof(PWB_TabItem) );
     public static readonly RoutedEvent CloseButtonClickEvent = EventManager.RegisterRoutedEvent(nameof( CloseButtonPressed ), RoutingStrategy.Bubble,
                                                                         typeof(RoutedEventArgs), typeof(PWB_TabItem) );
-
-    //public event RoutedEventHandler TabItemClick {
-    //    add { AddHandler(TabItemClickEvent, value); }
-    //    remove { RemoveHandler(TabItemClickEvent, value); }
-    //}
 
     public event RoutedEventHandler PinnedChanged {
         add { AddHandler(PinnedChangedClickEvent, value); }
@@ -129,7 +152,6 @@ public class PWB_TabItem : Control {
 
     private void OnTabItemClicked( object sender, RoutedEventArgs e ) {
         this.IsSelected = true;
-        //RaiseEvent( new RoutedEventArgs( TabItemClickEvent ) );
     }
 
     private void OnPinButtonClicked( object sender, RoutedEventArgs e ) {
@@ -153,12 +175,15 @@ public class PWB_TabItem : Control {
         e.Handled = true;
     }
 
-    private void CloseMe() {
+    public void CloseMe() {
         RaiseEvent( new RoutedEventArgs( CloseButtonClickEvent ) );
     }
 
     public event TabItemSelectedHandler TabItemSelected;
     public event TabItemUnselectedHandler TabItemUnselected;
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    private void RaisePropertyChanged( string property ) => PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( property ) );
     #endregion
 
     #region Template Contsols as members
@@ -192,7 +217,6 @@ public class PWB_TabItem : Control {
         IsCMenuShown = true;
     }
 
-    ContextMenu? contextMenu;
     MenuItem? pinMenuItem;
 
 
@@ -228,6 +252,22 @@ public class PWB_TabItem : Control {
         }
         e.Handled = true;
     }
+
+    #region Public Methods
+    public void GoPreviousPage() {
+        var addr = previousAddresses.Pop();
+        nextAddresses.Push( Address );
+        SetAddressProp( addr );
+        PrepareWebPageImage();
+    }
+
+    public void GoNextPage() {
+        var addr = nextAddresses.Pop();
+        previousAddresses.Push( Address );
+        SetAddressProp( addr );
+        PrepareWebPageImage();
+    }
+    #endregion
 
     #region Method overridings
     public override void OnApplyTemplate() {

@@ -16,8 +16,13 @@ The below list contains links of the source which I downloaded icons. Thank you 
 - <a href="https://iconscout.com/icons/pin" target="_blank">Free Pin Icon</a> by <a href="https://iconscout.com/contributors/github" target="_blank">Github</a>
 - <a href="https://iconscout.com/icons/pin" target="_blank">Free Pin Icon</a> by <a href="https://iconscout.com/contributors/daniel-bruce" target="_blank">Daniel Bruce</a>
 - <a href="https://iconscout.com/icons/close" target="_blank">Free Close Icon</a> by <a href="https://iconscout.com/contributors/font-awesome" target="_blank">Font Awesome</a>
+- <a href="https://iconscout.com/icons/new-file" target="_blank">Free New file Icon</a> by <a href="https://iconscout.com/contributors/fauzanadiima">Kreasi Kanvas</a> on <a href="https://iconscout.com">IconScout</a>
+- <a href="https://iconscout.com/icons/home" target="_blank">Free Home Icon</a> by <a href="https://iconscout.com/contributors/graficon" target="_blank">graficon</a>
 
 
 
 
+<a href="https://www.freepik.com/free-vector/set-computer-icon-vectors_3428232.htm#query=icon%20pack&position=19&from_view=search&track=ais">Image by rawpixel.com</a> on Freepik
+
+<a href="https://www.freepik.com/free-vector/illustration-business-concept_2808173.htm#query=icon%20pack&position=23&from_view=search&track=ais">Image by rawpixel.com</a> on Freepik
 

@@ -86,8 +86,38 @@ namespace PWB_CCLibrary.Classes {
             return item;
         }
 
-        private void İtem_TabItemSelected( object sender, TabItemEventArgs e ) {
-            throw new NotImplementedException();
+        public void CloseTabItem( PWB_TabItem tabItem ) {
+            if (tabItem == null)
+                return;
+            PWB_TabItem? WillBeSelected = null;
+            if (tabItem.IsSelected) {
+                // Sıradaki yada en sondaki tab item seçilmelidir.
+                WillBeSelected = FindNextAfterClose( tabItem, PinnedItems, NormalItems ) ?? FindNextAfterClose( tabItem, NormalItems, PinnedItems );
+            }
+
+            if (PinnedItems.Contains( tabItem ))
+                PinnedItems.Remove( tabItem );
+            else if (NormalItems.Contains( tabItem ))
+                NormalItems.Remove( tabItem );
+
+            if (WillBeSelected is not null)
+                WillBeSelected.IsSelected = true;
+        }
+
+        private PWB_TabItem? FindNextAfterClose( PWB_TabItem tabItem, ObservableCollection<PWB_TabItem> LocateInside, ObservableCollection<PWB_TabItem> SpareList ) {
+            PWB_TabItem? rv = null;
+            if (LocateInside.Contains( tabItem )) {
+                if (LocateInside.Count > 1) {
+                    var pos = LocateInside.IndexOf( tabItem );
+                    if (pos == LocateInside.Count - 1) {
+                        rv = LocateInside[pos - 1];
+                    } else
+                        rv = LocateInside[pos + 1];
+                } else if (SpareList.Count > 0) {
+                    rv = SpareList[0];
+                }
+            }
+            return rv;
         }
         #endregion
 

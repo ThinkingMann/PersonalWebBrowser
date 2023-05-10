@@ -17,7 +17,11 @@
 	<ItemGroup>
 	  <None Remove="Assets\chrome.png" />
 	  <None Remove="Assets\TopBarIcons\bookmark.png" />
+	  <None Remove="Assets\TopBarIcons\DisabledIcons\new-file_dis.png" />
+	  <None Remove="Assets\TopBarIcons\DisabledIcons\next_dis.png" />
+	  <None Remove="Assets\TopBarIcons\DisabledIcons\previous_dis.png" />
 	  <None Remove="Assets\TopBarIcons\home.png" />
+	  <None Remove="Assets\TopBarIcons\home_dark.png" />
 	  <None Remove="Assets\TopBarIcons\icons8-back-arrow-64.png" />
 	  <None Remove="Assets\TopBarIcons\icons8-circled-right-64.png" />
 	  <None Remove="Assets\TopBarIcons\icons8-circular-arrow-pointing-to-left-64.png" />
@@ -25,6 +29,9 @@
 	  <None Remove="Assets\TopBarIcons\icons8-go-back-64.png" />
 	  <None Remove="Assets\TopBarIcons\icons8-loop-left-rotation-64.png" />
 	  <None Remove="Assets\TopBarIcons\lock.png" />
+	  <None Remove="Assets\TopBarIcons\new-file.png" />
+	  <None Remove="Assets\TopBarIcons\next.png" />
+	  <None Remove="Assets\TopBarIcons\previous.png" />
 	  <None Remove="Assets\TopBarIcons\search.png" />
 	</ItemGroup>
 
@@ -34,13 +41,16 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\PWB_CCLibrary\PWB_CCLibrary.csproj" />
-	  <ProjectReference Include="..\PWB_UserControls\PWB_UserControls.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Resource Include="Assets\chrome.png" />
 	  <Resource Include="Assets\TopBarIcons\bookmark.png" />
+	  <Resource Include="Assets\TopBarIcons\DisabledIcons\new-file_dis.png" />
+	  <Resource Include="Assets\TopBarIcons\DisabledIcons\next_dis.png" />
+	  <Resource Include="Assets\TopBarIcons\DisabledIcons\previous_dis.png" />
 	  <Resource Include="Assets\TopBarIcons\home.png" />
+	  <Resource Include="Assets\TopBarIcons\home_dark.png" />
 	  <Resource Include="Assets\TopBarIcons\icons8-back-arrow-64.png" />
 	  <Resource Include="Assets\TopBarIcons\icons8-circled-right-64.png" />
 	  <Resource Include="Assets\TopBarIcons\icons8-circular-arrow-pointing-to-left-64.png" />
@@ -48,7 +58,14 @@
 	  <Resource Include="Assets\TopBarIcons\icons8-go-back-64.png" />
 	  <Resource Include="Assets\TopBarIcons\icons8-loop-left-rotation-64.png" />
 	  <Resource Include="Assets\TopBarIcons\lock.png" />
+	  <Resource Include="Assets\TopBarIcons\new-file.png" />
+	  <Resource Include="Assets\TopBarIcons\next.png" />
+	  <Resource Include="Assets\TopBarIcons\previous.png" />
 	  <Resource Include="Assets\TopBarIcons\search.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="UserControls\" />
 	</ItemGroup>
 
 	

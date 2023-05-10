@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PWB_UserControls.Delegates;
+namespace PWB_CCLibrary.Delegates;
 
 public delegate void AddressChangedEventHandler( object sender, AddressChangedEventArgs e );
 

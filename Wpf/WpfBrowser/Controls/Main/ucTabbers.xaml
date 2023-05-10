@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              xmlns:cc="clr-namespace:PWB_CCLibrary.Controls;assembly=PWB_CCLibrary"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="LightBlue">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <!-- ToolBar -->

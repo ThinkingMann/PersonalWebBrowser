@@ -2,11 +2,11 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 
-using PWB_UserControls.Delegates;
+using PWB_CCLibrary.Delegates;
 
-namespace PWB_UserControls.Browser;
-
+namespace WpfBrowser.Controls.Browser;
 /// <summary>
 /// Interaction logic for ucAddressBar.xaml
 /// </summary>
@@ -25,7 +25,7 @@ public partial class ucAddressBar : UserControl {
 
     // Using a DependencyProperty as the backing store for SecureImageSource.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty SecureImageSourceProperty =
-                           DependencyProperty.Register("SecureImageSource", typeof(string), typeof(ucAddressBar), new PropertyMetadata(""));
+                       DependencyProperty.Register("SecureImageSource", typeof(string), typeof(ucAddressBar), new PropertyMetadata(""));
 
     public string ReloadImageSource {
         get => (string)GetValue( ReloadImageSourceProperty );
@@ -37,7 +37,7 @@ public partial class ucAddressBar : UserControl {
 
     // Using a DependencyProperty as the backing store for ReloadImageSource.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty ReloadImageSourceProperty =
-                           DependencyProperty.Register("ReloadImageSource", typeof(string), typeof(ucAddressBar), new PropertyMetadata(""));
+                       DependencyProperty.Register("ReloadImageSource", typeof(string), typeof(ucAddressBar), new PropertyMetadata(""));
 
     public string TargetAddress {
         get => (string)GetValue( TargetAddressProperty );
@@ -45,13 +45,12 @@ public partial class ucAddressBar : UserControl {
             SetValue( TargetAddressProperty, value );
             var oa = tbAddress.Text;
             tbAddress.Text = value;
-            TargetAddressChanged?.Invoke( this, new AddressChangedEventArgs() { OldAddress = oa, NewAddress = TargetAddress } );
         }
     }
 
     // Using a DependencyProperty as the backing store for TargetAddress.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty TargetAddressProperty =
-                           DependencyProperty.Register("TargetAddress", typeof(string), typeof(ucAddressBar), new PropertyMetadata(""));
+                       DependencyProperty.Register("TargetAddress", typeof(string), typeof(ucAddressBar), new PropertyMetadata(""));
     #endregion
 
     #region Class ctor..
@@ -66,12 +65,10 @@ public partial class ucAddressBar : UserControl {
     #endregion
 
     private void UcAddressBar_Loaded( object sender, RoutedEventArgs e ) {
+        btnSecure.ImageSource = SecureImageSource;
+        btnReload.ImageSource = ReloadImageSource;
         if (!String.IsNullOrEmpty( TargetAddress )) {
             tbAddress.Text = TargetAddress;
-            TargetAddressChanged?.Invoke( this, new AddressChangedEventArgs() {
-                OldAddress = string.Empty,
-                NewAddress = TargetAddress
-            } );
         }
     }
 
@@ -80,12 +77,30 @@ public partial class ucAddressBar : UserControl {
         if (e.Key == System.Windows.Input.Key.Enter) {
             var oa = TargetAddress;
             TargetAddress = tbAddress.Text;
-
-            // Kill logical focus
-            FocusManager.SetFocusedElement( FocusManager.GetFocusScope( tbAddress ), null );
-            // Kill keyboard focus
-            Keyboard.ClearFocus();
+            TargetAddressChanged?.Invoke( this, new AddressChangedEventArgs() { OldAddress = oa, NewAddress = TargetAddress } );
+            ClearFocus();
         }
     }
+
+    private void ClearFocus() {
+        // Kill logical focus
+        FocusManager.SetFocusedElement( FocusManager.GetFocusScope( tbAddress ), null );
+        // Kill keyboard focus
+        Keyboard.ClearFocus();
+    }
+
+    public void SetFocus() {
+        tbAddress.Focus();
+    }
     #endregion
+
+    private void tbAddress_GotFocus( object sender, RoutedEventArgs e ) {
+        DispatcherTimer dt = new DispatcherTimer();
+        dt.Interval = TimeSpan.FromMilliseconds( 10 );
+        dt.Tick += ( sender, e ) => {
+            tbAddress.SelectAll();
+            dt.Stop();
+        };
+        dt.Start();
+    }
 }

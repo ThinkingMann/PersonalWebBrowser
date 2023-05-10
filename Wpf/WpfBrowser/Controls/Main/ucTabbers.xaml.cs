@@ -35,6 +35,8 @@ public partial class ucTabbers : UserControl {
     private Stack<(TabGroup, PWB_TabItem)> closedTabs = new Stack<(TabGroup, PWB_TabItem)>();
 
     private TabGroup? selectedTabGroup = null;
+
+    public TabGroup? SelectedTabGroup => selectedTabGroup;
     #endregion
 
     #region Class ctor..
@@ -79,12 +81,14 @@ public partial class ucTabbers : UserControl {
     }
 
     #region public methods
-    public PWB_TabItem CreateNewTab( string url ) {
+    public PWB_TabItem CreateNewTab( string url, bool selectIt = true ) {
         if (selectedTabGroup is null)
             cmbTabGroups.SelectedIndex = 0;
 
         var ti = selectedTabGroup!.CreateNewTabItem();
-        ti.IsSelected = true;
+        if (selectIt) {
+            ti.IsSelected = true;
+        }
         ti.WebPanel = new ucBrowser( ti );
         ti.Address = url;
 
@@ -99,6 +103,18 @@ public partial class ucTabbers : UserControl {
         PinnedItems.ItemsSource = null;
         NormalItems.ItemsSource = null;
         selectedTabGroup = null;
+    }
+
+    public void CloseTabItem( PWB_TabItem item ) {
+        if (selectedTabGroup is null)
+            return;
+        selectedTabGroup.CloseTabItem( item );
+
+        if (!string.IsNullOrEmpty( item.Address ))
+            closedTabs.Push( (selectedTabGroup!, item) );
+
+        if (object.ReferenceEquals( selectedItem, item ))
+            selectedItem = null;
     }
 
     public bool IsPinOk() => PinnedItems.Items.Count < MaxPinnedPageCount;
@@ -128,18 +144,8 @@ public partial class ucTabbers : UserControl {
     }
 
     private void Item_CloseButtonPressed( object sender, RoutedEventArgs e ) {
-        if (sender is PWB_TabItem item) {
-            if (item.IsPinned) {
-                selectedTabGroup?.PinnedItems.Remove( item );
-            } else {
-                selectedTabGroup?.NormalItems.Remove( item );
-            }
-
-            closedTabs.Push( (selectedTabGroup!, item) );
-
-            if (object.ReferenceEquals( selectedItem, item ))
-                selectedItem = null;
-        }
+        if (sender is PWB_TabItem item)
+            CloseTabItem( item );
     }
     #endregion
 }
