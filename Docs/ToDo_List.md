@@ -17,6 +17,7 @@
   - [ ] sayfa bir link ile değiştiğinde hem geçmiş hem de adres bar güncellenebilmeli
   - [ ] Full screen istendiğinde full screen çalıştırma özelliği eklenmeli.
 - [ ] Refresh butonu çalışır hale getirilmelidir.
+- [ ] TabGroup'ları window'un caption bar'ına yerleştirilecek
 
 ## In the Future
 
@@ -32,4 +33,3 @@
 
 ## Undecided Ideas
 
-- [ ] TabGroups can be moved to the Window's title bar
