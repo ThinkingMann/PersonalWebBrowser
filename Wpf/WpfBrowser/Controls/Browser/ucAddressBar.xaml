@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfBrowser.Controls.Browser"
              xmlns:cc="clr-namespace:PWB_CCLibrary.Controls;assembly=PWB_CCLibrary"
+             x:Name="addressBar"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -18,13 +19,11 @@
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="3,2,0,2" Width="26"
                     Background="Transparent">
-            <cc:AddressBarButton x:Name="btnSecure" Margin="0,1" Width="24"
-                                 ImageSource="{Binding ElementName=AddresBar, Path=SecureImageSource}" />
+            <cc:AddressBarButton x:Name="btnSecure" Margin="0,1" Width="24" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="0,2,3,2" Width="26"
                     Background="Transparent">
-            <cc:AddressBarButton x:Name="btnReload" Margin="0,1" Width="24"
-                                 ImageSource="{Binding ElementName=AddresBar, Path=ReloadImageSource}" />
+            <cc:AddressBarButton x:Name="btnReload" Margin="0,1" Width="24" />
         </StackPanel>
     </Grid>
 </UserControl>

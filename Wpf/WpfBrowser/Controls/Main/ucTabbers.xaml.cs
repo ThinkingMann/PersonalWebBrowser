@@ -148,4 +148,14 @@ public partial class ucTabbers : UserControl {
             CloseTabItem( item );
     }
     #endregion
+
+    internal void GoPreviousPage() {
+        if (SelectedItem is { } && SelectedItem.CanGoPreviousPage)
+            SelectedItem.GoPreviousPage();
+    }
+
+    internal void GoNextPage() {
+        if (SelectedItem is { } && SelectedItem.CanGoNextPage)
+            SelectedItem.GoNextPage();
+    }
 }

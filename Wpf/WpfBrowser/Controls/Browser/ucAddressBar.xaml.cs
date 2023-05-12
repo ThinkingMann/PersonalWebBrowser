@@ -15,29 +15,41 @@ public partial class ucAddressBar : UserControl {
     public event AddressChangedEventHandler? TargetAddressChanged;
 
     #region Dependency Properties (SecureImageSource, ReloadImageSource, TargetAddress)
-    public string SecureImageSource {
-        get => (string)GetValue( SecureImageSourceProperty );
+    public string SecureImageKey {
+        get => (string)GetValue( SecureImageKeyProperty );
         set {
-            SetValue( SecureImageSourceProperty, value );
-            btnSecure.ImageSource = SecureImageSource;
+            SetValue( SecureImageKeyProperty, value );
+            btnSecure.ImageKey = SecureImageKey;
         }
     }
 
     // Using a DependencyProperty as the backing store for SecureImageSource.  This enables animation, styling, binding, etc...
-    public static readonly DependencyProperty SecureImageSourceProperty =
-                       DependencyProperty.Register("SecureImageSource", typeof(string), typeof(ucAddressBar), new PropertyMetadata(""));
+    public static readonly DependencyProperty SecureImageKeyProperty =
+                       DependencyProperty.Register(nameof( SecureImageKey ), typeof(string), typeof(ucAddressBar), new PropertyMetadata(""));
 
-    public string ReloadImageSource {
-        get => (string)GetValue( ReloadImageSourceProperty );
+    public string UnsecureImageSource {
+        get => (string)GetValue( UnsecureImageSourceProperty );
         set {
-            SetValue( ReloadImageSourceProperty, value );
-            btnReload.ImageSource = ReloadImageSource;
+            SetValue( UnsecureImageSourceProperty, value );
+            btnSecure.ImageKey = UnsecureImageSource;
+        }
+    }
+
+    // Using a DependencyProperty as the backing store for SecureImageSource.  This enables animation, styling, binding, etc...
+    public static readonly DependencyProperty UnsecureImageSourceProperty =
+                       DependencyProperty.Register(nameof( UnsecureImageSource ), typeof(string), typeof(ucAddressBar), new PropertyMetadata(""));
+
+    public string ReloadImageKey {
+        get => (string)GetValue( ReloadImageKeyProperty );
+        set {
+            SetValue( ReloadImageKeyProperty, value );
+            btnReload.ImageKey = ReloadImageKey;
         }
     }
 
     // Using a DependencyProperty as the backing store for ReloadImageSource.  This enables animation, styling, binding, etc...
-    public static readonly DependencyProperty ReloadImageSourceProperty =
-                       DependencyProperty.Register("ReloadImageSource", typeof(string), typeof(ucAddressBar), new PropertyMetadata(""));
+    public static readonly DependencyProperty ReloadImageKeyProperty =
+                       DependencyProperty.Register(nameof( ReloadImageKey ), typeof(string), typeof(ucAddressBar), new PropertyMetadata(""));
 
     public string TargetAddress {
         get => (string)GetValue( TargetAddressProperty );
@@ -50,7 +62,7 @@ public partial class ucAddressBar : UserControl {
 
     // Using a DependencyProperty as the backing store for TargetAddress.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty TargetAddressProperty =
-                       DependencyProperty.Register("TargetAddress", typeof(string), typeof(ucAddressBar), new PropertyMetadata(""));
+                       DependencyProperty.Register(nameof( TargetAddress ), typeof(string), typeof(ucAddressBar), new PropertyMetadata(""));
     #endregion
 
     #region Class ctor..
@@ -65,8 +77,8 @@ public partial class ucAddressBar : UserControl {
     #endregion
 
     private void UcAddressBar_Loaded( object sender, RoutedEventArgs e ) {
-        btnSecure.ImageSource = SecureImageSource;
-        btnReload.ImageSource = ReloadImageSource;
+        btnSecure.ImageKey = SecureImageKey;
+        btnReload.ImageKey = ReloadImageKey;
         if (!String.IsNullOrEmpty( TargetAddress )) {
             tbAddress.Text = TargetAddress;
         }

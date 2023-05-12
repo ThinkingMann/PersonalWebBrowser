@@ -1,0 +1,51 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:PWB_CCLibrary.Controls">
+    <Style TargetType="local:AddressBarButton">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:AddressBarButton">
+                    <Border x:Name="border" Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            Padding="2">
+                        <Viewbox x:Name="viewBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SnapsToDevicePixels="True">
+                            <Grid>
+                                <Path x:Name="PART_Path" 
+                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                      Visibility="Collapsed"
+                                      SnapsToDevicePixels="True" />
+                                <Image x:Name="PART_Image"
+                                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                       Visibility="Collapsed"
+                                       SnapsToDevicePixels="True" />
+                            </Grid>
+                        </Viewbox>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!-- Trigger for IsMouseOver state -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="LightGray" />
+                            <Setter TargetName="border" Property="Opacity" Value="0.5" />
+                            <Setter TargetName="PART_Path" Property="Opacity" Value="0.5" />
+                            <Setter TargetName="PART_Image" Property="Opacity" Value="0.5" />
+                        </Trigger>
+                        <!-- Trigger for IsPressed state -->
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="LightGray" />
+                            <Setter TargetName="PART_Path" Property="Opacity" Value="0.9" />
+                            <Setter TargetName="PART_Image" Property="Opacity" Value="0.9" />
+                            <Setter TargetName="viewBox"  Property="Margin" Value="1,1,-1,-1" />
+                        </Trigger>
+                        <!-- Trigger for IsEnabled state -->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="Transparent" />
+                            <Setter TargetName="PART_Path" Property="Opacity" Value="0.5" />
+                            <Setter TargetName="PART_Image" Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

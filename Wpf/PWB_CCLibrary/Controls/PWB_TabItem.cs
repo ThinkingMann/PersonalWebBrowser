@@ -193,7 +193,7 @@ public class PWB_TabItem : Control, INotifyPropertyChanged {
     #endregion
 
     protected PWB_TabItem() : base() {
-        this.Background = Brushes.LightGray;
+        this.Background = Brushes.Red;
         this.Loaded += PWB_TabItem_Loaded;
         #region Context menu creation
         this.ContextMenu = new ContextMenu();

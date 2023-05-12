@@ -19,7 +19,7 @@
         </Grid.RowDefinitions>
 
         <!-- Row 0: Address Bar -->
-        <Grid Grid.Row="0" Background="DarkGray">
+        <Grid Grid.Row="0" Background="Transparent">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -27,48 +27,48 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center">
-                <cc:AddressBarButton x:Name="abbPreviousPage" 
-                                     Height="26" Width="26"
-                                     Margin="3,0,0,0"
-                                     ImageSource="pack://application:,,,/Assets/TopBarIcons/previous.png"
-                                     DisabledImageSource="pack://application:,,,/Assets/TopBarIcons/DisabledIcons/previous_dis.png"
-                                     Click="abbPreviousPage_Click"
-                                     IsEnabled="{Binding CanGoPreviousPage, ElementName=mainContent, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                     ToolTip="{Binding PreviousAddress, ElementName=mainContent, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                     />
-                <cc:AddressBarButton x:Name="abbNextPage" 
-                                     Height="26" Width="26"
-                                     Margin="3,0,0,0"
-                                     ImageSource="pack://application:,,,/Assets/TopBarIcons/next.png"
-                                     DisabledImageSource="pack://application:,,,/Assets/TopBarIcons/DisabledIcons/next_dis.png"
-                                     IsEnabled="{Binding CanGoNextPage, ElementName=mainContent, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                     ToolTip="{Binding NextAddress, ElementName=mainContent, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                     Click="abbNextPage_Click"
-                                     />
-                <cc:AddressBarButton x:Name="abbHomePage" 
-                                     Height="26" Width="26"
-                                     Margin="3,0,0,0"
-                                     ToolTip="Go to home page"
-                                     ImageSource="pack://application:,,,/Assets/TopBarIcons/home_dark.png"
-                                     Click="abbHomePage_Click"
-                                     />
+                <cc:AddressBarButton x:Name="abbPreviousPage"
+                                           Height="26" Width="26"
+                                           Margin="3,0,0,0"
+                                           ImageKey="geoBackButtonIcon"
+                                           RotateAngle="0"
+                                           Click="abbPreviousPage_Click"
+                                           IsEnabled="{Binding CanGoPreviousPage, ElementName=mainContent, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                           ToolTip="{Binding PreviousAddress, ElementName=mainContent, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                           />
+                <cc:AddressBarButton x:Name="abbNextPage"
+                                           Height="26" Width="26"
+                                           Margin="3,0,0,0"
+                                           ImageKey="geoBackButtonIcon"
+                                           RotateAngle="180"
+                                           Click="abbNextPage_Click"
+                                           IsEnabled="{Binding CanGoNextPage, ElementName=mainContent, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                           ToolTip="{Binding NextAddress, ElementName=mainContent, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                           />
+                <cc:AddressBarButton x:Name="abbHomePage"
+                                           Height="26" Width="26"
+                                           Margin="3,0,0,0"
+                                           ImageKey="geoHomeButtonIcon02"
+                                           RotateAngle="0"
+                                           Click="abbHomePage_Click"
+                                           />
             </StackPanel>
 
             <browser:ucAddressBar x:Name="abTargetAddress" Height="30" Grid.Column="1" Margin="3,2"
-                                      SecureImageSource="pack://application:,,,/Assets/TopBarIcons/lock.png"
-                                      ReloadImageSource="pack://application:,,,/Assets/TopBarIcons/icons8-loop-left-rotation-64.png"
+                                      SecureImageKey="drwLockButton01"
+                                      ReloadImageKey="drwRefreshButton"
                                       TargetAddressChanged="abTargetAddress_TargetAddressChanged"
                                       />
 
             <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Left" Margin="0,0,3,0">
-                <cc:AddressBarButton x:Name="abbNewTab" 
-                                     Height="26" Width="26"
-                                     ToolTip="Create a new tab"
-                                     ImageSource="pack://application:,,,/Assets/TopBarIcons/new-file.png"
-                                     DisabledImageSource="pack://application:,,,/Assets/TopBarIcons/DisabledIcons/new-file_dis.png"
-                                     IsEnabled="{Binding IsNewTabEnabled, ElementName=mainContent, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                     Click="abbNewTab_Click"
-                                     />
+                <cc:AddressBarButton x:Name="abbNewTab"
+                                           Height="26" Width="26"
+                                           Margin="3,0,0,0"
+                                           ImageKey="geoNewPageIcon01"
+                                           RotateAngle="0"
+                                           Click="abbNewTab_Click"
+                                           IsEnabled="{Binding IsNewTabEnabled, ElementName=mainContent, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                           />
             </StackPanel>
         </Grid>
 
@@ -83,11 +83,11 @@
             </Grid.ColumnDefinitions>
 
             <!-- Column 0: Tab groups and Tabs -->
-            <local:ucTabbers x:Name="Tabber" Background="DarkGray" />
+            <local:ucTabbers x:Name="Tabber" Background="Transparent" />
 
             <!-- Column 1: Web Page Viewer -->
             <GridSplitter Width="3" Grid.Column="1" HorizontalAlignment="Left" Margin="0,2" />
-            <ContentControl x:Name="ContentCtrl" Grid.Column="1" Margin="3,2,2,2" />
+            <ContentControl x:Name="ContentCtrl" Grid.Column="1" Margin="3,0,0,0" />
 
             <!-- Column 2: Helpers (Displayed if required) -->
         </Grid>

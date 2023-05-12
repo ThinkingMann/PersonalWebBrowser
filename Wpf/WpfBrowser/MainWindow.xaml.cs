@@ -10,4 +10,11 @@ public partial class MainWindow : Window {
         InitializeComponent();
     }
 
+    private void abbWindowMinimize_Click( object sender, RoutedEventArgs e ) {
+        this.WindowState = WindowState.Minimized;
+    }
+
+    private void abbWindowMaximize_Click( object sender, RoutedEventArgs e ) {
+        this.WindowState = WindowState.Maximized;
+    }
 }

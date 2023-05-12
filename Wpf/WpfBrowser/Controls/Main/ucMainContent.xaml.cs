@@ -65,35 +65,35 @@ public partial class ucMainContent : UserControl, INotifyPropertyChanged {
         // Test Code
         Tabber.CreateNewTab( "www.google.com", false );
         Tabber.CreateNewTab( "www.hotmail.com", false );
-        //Tabber.CreateNewTab( "www.msn.com", false );
-        //Tabber.CreateNewTab( "www.gmail.com", false );
-        //Tabber.CreateNewTab( "www.e-devlet.gov.tr", false );
-        //Tabber.CreateNewTab( "www.turkiye.gov.tr", false );
-        //Tabber.CreateNewTab( "www.nasa.gov", false );
-        //Tabber.CreateNewTab( "www.facebook.gov", false );
-        //Tabber.CreateNewTab( "www.youtube.com", false );
-        //Tabber.CreateNewTab( "www.amazon.com", false );
-        //Tabber.CreateNewTab( "www.gitlab.com", false );
-        //Tabber.CreateNewTab( "www.iconscout.com", false );
-        //Tabber.CreateNewTab( "workspace.google.com", false );
-        //Tabber.CreateNewTab( "www.ebay.com", false );
-        //Tabber.CreateNewTab( "www.stackexchange.com", false );
-        //Tabber.CreateNewTab( "www.instagram.com", false );
-        //Tabber.CreateNewTab( "play.google.com", false );
-        //Tabber.CreateNewTab( "www.microsoft.com", false );
-        //Tabber.CreateNewTab( "visualstudio.microsoft.com", false );
-        //Tabber.CreateNewTab( "dotnet.microsoft.com", false );
-        //Tabber.CreateNewTab( "www.jetbrains.com", false );
-        //Tabber.CreateNewTab( "medium.com", false );
-        //Tabber.CreateNewTab( "openai.com", false );
-        //Tabber.CreateNewTab( "cloud.google.com", false );
-        //Tabber.CreateNewTab( "azure.microsoft.com", false );
-        //Tabber.CreateNewTab( "www.wikipedia.org", false );
-        //Tabber.CreateNewTab( "www.gnoosic.com", false );
-        //Tabber.CreateNewTab( "www.patatap.com", false );
-        //Tabber.CreateNewTab( "notalwaysright.com", false );
-        //Tabber.CreateNewTab( "www.flashbynight.com/drench", false );
-        //Tabber.CreateNewTab( "riverstyx.com", false );
+        Tabber.CreateNewTab( "www.msn.com", false );
+        Tabber.CreateNewTab( "www.gmail.com", false );
+        Tabber.CreateNewTab( "www.e-devlet.gov.tr", false );
+        Tabber.CreateNewTab( "www.turkiye.gov.tr", false );
+        Tabber.CreateNewTab( "www.nasa.gov", false );
+        Tabber.CreateNewTab( "www.facebook.gov", false );
+        Tabber.CreateNewTab( "www.youtube.com", false );
+        Tabber.CreateNewTab( "www.amazon.com", false );
+        Tabber.CreateNewTab( "www.gitlab.com", false );
+        Tabber.CreateNewTab( "www.iconscout.com", false );
+        Tabber.CreateNewTab( "workspace.google.com", false );
+        Tabber.CreateNewTab( "www.ebay.com", false );
+        Tabber.CreateNewTab( "www.stackexchange.com", false );
+        Tabber.CreateNewTab( "www.instagram.com", false );
+        Tabber.CreateNewTab( "play.google.com", false );
+        Tabber.CreateNewTab( "www.microsoft.com", false );
+        Tabber.CreateNewTab( "visualstudio.microsoft.com", false );
+        Tabber.CreateNewTab( "dotnet.microsoft.com", false );
+        Tabber.CreateNewTab( "www.jetbrains.com", false );
+        Tabber.CreateNewTab( "medium.com", false );
+        Tabber.CreateNewTab( "openai.com", false );
+        Tabber.CreateNewTab( "cloud.google.com", false );
+        Tabber.CreateNewTab( "azure.microsoft.com", false );
+        Tabber.CreateNewTab( "www.wikipedia.org", false );
+        Tabber.CreateNewTab( "www.gnoosic.com", false );
+        Tabber.CreateNewTab( "www.patatap.com", false );
+        Tabber.CreateNewTab( "notalwaysright.com", false );
+        Tabber.CreateNewTab( "www.flashbynight.com/drench", false );
+        Tabber.CreateNewTab( "riverstyx.com", false );
 
         RaiseTabItemChangedEvents();
     }
@@ -166,14 +166,22 @@ public partial class ucMainContent : UserControl, INotifyPropertyChanged {
     }
 
     private void abbPreviousPage_Click( object sender, System.Windows.RoutedEventArgs e ) {
-
+        Tabber.GoPreviousPage();
+        if (SelectedTabItem is { })
+            abTargetAddress.TargetAddress = SelectedTabItem.Address;
+        RaiseTabItemChangedEvents();
     }
 
     private void abbNextPage_Click( object sender, System.Windows.RoutedEventArgs e ) {
-
+        Tabber.GoNextPage();
+        if (SelectedTabItem is { })
+            abTargetAddress.TargetAddress = SelectedTabItem.Address;
+        RaiseTabItemChangedEvents();
     }
 
     private void abbHomePage_Click( object sender, System.Windows.RoutedEventArgs e ) {
-
+        if (SelectedTabItem is { })
+            abTargetAddress.TargetAddress = SelectedTabItem.Address = HomePage;
+        RaiseTabItemChangedEvents();
     }
 }
