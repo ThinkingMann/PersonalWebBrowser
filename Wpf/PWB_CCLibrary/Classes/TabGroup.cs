@@ -7,7 +7,8 @@ using PWB_CCLibrary.Controls;
 using PWB_CCLibrary.Delegates;
 
 namespace PWB_CCLibrary.Classes {
-    public class TabGroup : INotifyPropertyChanged {
+    public class TabGroup : INotifyPropertyChanged, IEquatable<TabGroup>, IEquatable<TabGroupButton> {
+        private static int Counter = 0;
         #region INotifyPropertyChanged interface implementation
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -15,6 +16,8 @@ namespace PWB_CCLibrary.Classes {
             PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( propertyName ) );
         }
         #endregion
+
+        public int Id { get; init; }
 
         #region members and properties
         private string _name;
@@ -40,6 +43,8 @@ namespace PWB_CCLibrary.Classes {
             get => normalItems;
             set => normalItems = value;
         }
+
+        public int TotalCount => pinnedItems.Count + normalItems.Count;
         #endregion
 
         #region Injected Event Handlers
@@ -64,17 +69,15 @@ namespace PWB_CCLibrary.Classes {
             _tabItemSelected = tabItemSelected;
             _pinnedChanged = pinnedChanged;
             _closeButtonPressed = closeButtonPressed;
+            Id = Counter++;
         }
 
         #region CreateNewTabItem method
         public PWB_TabItem CreateNewTabItem( bool isPinned = false ) {
             PWB_TabItem item = new( _isPinOk ) {
                 IsPinned = isPinned,
-                Margin = isPinned ? new Thickness( 2, 0, 0, 0 ) : new Thickness( 1, 0, 0, 0 ),
+                Margin = new Thickness( 1, 2, 0, 1 ),
                 VerticalAlignment = VerticalAlignment.Top,
-
-                //Address = "https://www.google.com",
-                //Title = $"({NormalItems.Count + 1}) Google Search"
             };
 
             item.PinnedChanged += Item_PinnedChanged;
@@ -121,5 +124,18 @@ namespace PWB_CCLibrary.Classes {
         }
         #endregion
 
+        public override bool Equals( object? obj ) {
+            if (obj is TabGroup tabGroup)
+                return tabGroup.Id == Id;
+            return false;
+        }
+
+        public bool Equals( TabGroup? other ) => other is { } && Id == other.Id;
+
+        public override int GetHashCode() {
+            return Id.GetHashCode();
+        }
+
+        public bool Equals( TabGroupButton? other ) => other?.TabGroupItem is { } && Id == other.TabGroupItem.Id;
     }
 }

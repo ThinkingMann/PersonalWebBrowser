@@ -9,12 +9,12 @@ using GF = PWB_CCLibrary.Common.GenFuncts;
 
 namespace PWB_CCLibrary.Controls;
 
+internal enum Modes { Path, Image, ImageSource }
+
 public class AddressBarButton : Button {
     static AddressBarButton() {
         DefaultStyleKeyProperty.OverrideMetadata( typeof( AddressBarButton ), new FrameworkPropertyMetadata( typeof( AddressBarButton ) ) );
     }
-
-    private enum Modes { Path, Image, ImageSource }
 
     #region Dependency Properties
     public String ImageSource {
@@ -50,7 +50,7 @@ public class AddressBarButton : Button {
 
     // Using a DependencyProperty as the backing store for RotateAngle.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty RotateAngleProperty =
-    DependencyProperty.Register("RotateAngle", typeof(int), typeof(AddressBarButton), new PropertyMetadata(0));
+    DependencyProperty.Register(nameof( RotateAngle ), typeof(int), typeof(AddressBarButton), new PropertyMetadata(0));
     #endregion
 
     #region Members and Properties

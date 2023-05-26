@@ -11,7 +11,7 @@ using PWB_CCLibrary.Interfaces;
 
 namespace PWB_CCLibrary.Controls;
 
-public class PWB_TabItem : Control, INotifyPropertyChanged {
+public class PWB_TabItem : PWB_TabItemBase, INotifyPropertyChanged {
 
     public Func<bool> IsPinOk { get; private set; }
 
@@ -92,7 +92,10 @@ public class PWB_TabItem : Control, INotifyPropertyChanged {
 
     public string PageTitle {
         get => (string)GetValue( PageTitleProperty );
-        set => SetValue( PageTitleProperty, value );
+        set {
+            SetValue( PageTitleProperty, value );
+            ActivateFader();
+        }
     }
 
     public static readonly DependencyProperty PageTitleProperty =
@@ -150,10 +153,6 @@ public class PWB_TabItem : Control, INotifyPropertyChanged {
         remove { RemoveHandler(CloseButtonClickEvent, value); }
     }
 
-    private void OnTabItemClicked( object sender, RoutedEventArgs e ) {
-        this.IsSelected = true;
-    }
-
     private void OnPinButtonClicked( object sender, RoutedEventArgs e ) {
         PinMe();
         e.Handled = true;
@@ -189,7 +188,9 @@ public class PWB_TabItem : Control, INotifyPropertyChanged {
     #region Template Contsols as members
     Button? mainButton, pinButton, closeButton;
     System.Windows.Controls.Image? myImage, pinImage, closeImage;
-    TextBlock? webPageTitle;
+    TextBlock? _myTextBlock;
+    ColumnDefinition? _myColumn;
+    Grid? _myGrid;
     #endregion
 
     protected PWB_TabItem() : base() {
@@ -204,6 +205,11 @@ public class PWB_TabItem : Control, INotifyPropertyChanged {
         this.ContextMenuOpening += ContextMenu_ContextMenuOpening;
         this.ContextMenuClosing += ContextMenu_ContextMenuClosing;
         #endregion
+        this.Click += PWB_TabItem_Click;
+    }
+
+    private void PWB_TabItem_Click( object sender, RoutedEventArgs e ) {
+        this.IsSelected = true;
     }
 
     public PWB_TabItem( Func<bool> isPinOK ) : this() => IsPinOk = isPinOK;
@@ -217,9 +223,11 @@ public class PWB_TabItem : Control, INotifyPropertyChanged {
         IsCMenuShown = true;
     }
 
+    private void WebPageTitle_SizeChanged( object sender, SizeChangedEventArgs e ) {
+        ActivateFader();
+    }
+
     MenuItem? pinMenuItem;
-
-
     private void PWB_TabItem_Loaded( object sender, RoutedEventArgs e ) {
         PrepareWebPageImage();
         PageTitle = string.IsNullOrEmpty( Title ) ? Address : Title;
@@ -269,13 +277,50 @@ public class PWB_TabItem : Control, INotifyPropertyChanged {
     }
     #endregion
 
+    #region ActivateFader() method
+    private void ActivateFader() {
+        if (_myTextBlock is null)
+            return;
+        try {
+            //_myTextBlock.OpacityMask = null;
+            //_myTextBlock.InvalidateProperty( TextBlock.ActualWidthProperty );
+
+            Typeface typeface = new Typeface( _myTextBlock!.FontFamily, _myTextBlock!.FontStyle, _myTextBlock!.FontWeight, _myTextBlock!.FontStretch );
+            FormattedText formattedText = new FormattedText( _myTextBlock!.Text,
+                                                             System.Threading.Thread.CurrentThread.CurrentCulture,
+                                                             _myTextBlock!.FlowDirection,
+                                                             typeface,
+                                                             _myTextBlock!.FontSize,
+                                                             _myTextBlock!.Foreground,
+                                                             VisualTreeHelper.GetDpi(_myTextBlock).PixelsPerDip) {
+                Trimming = TextTrimming.None,
+                MaxLineCount = 1
+            };
+
+            var maxWidth = _myColumn!.ActualWidth - _myTextBlock.Margin.Left - _myTextBlock!.Margin.Right;
+
+            if ((maxWidth < formattedText.Width)) {
+                var aa = new LinearGradientBrush( Colors.Black, Colors.Transparent, 0 );
+                aa.MappingMode = BrushMappingMode.Absolute;
+                aa.StartPoint = new Point( maxWidth - 30, 0 );
+                aa.EndPoint = new Point( maxWidth, 0 );
+                aa.GradientStops.Add( new GradientStop( Colors.Black, 0 ) );
+                aa.GradientStops.Add( new GradientStop( Colors.Transparent, 1 ) );
+                _myTextBlock.OpacityMask = aa;
+            } else
+                _myTextBlock.OpacityMask = null;
+        } catch {
+        }
+    }
+    #endregion
+
     #region Method overridings
     public override void OnApplyTemplate() {
 
-        mainButton = Template.FindName( "PART_MainButton", this ) as Button;
-        if (mainButton is null)
-            throw new System.Exception( "MainButton control does not exist in the applied template." );
-        mainButton.Click += OnTabItemClicked;
+        //mainButton = Template.FindName( "PART_MainButton", this ) as Button;
+        //if (mainButton is null)
+        //    throw new System.Exception( "MainButton control does not exist in the applied template." );
+        //mainButton.Click += OnTabItemClicked;
 
         pinButton = Template.FindName( "PART_PinButton", this ) as Button;
         if (pinButton is null)
@@ -301,11 +346,33 @@ public class PWB_TabItem : Control, INotifyPropertyChanged {
             throw new System.Exception( "CloseImage control does not exist in the applied template." );
         closeImage.Source = PrepareImage( CloseImageUrl );
 
-        webPageTitle = Template.FindName( "PART_WebPageTitle", this ) as TextBlock;
-        if (mainButton is null)
+        _myGrid = Template.FindName( "PART_Grid", this ) as Grid;
+        if (_myGrid is null)
+            throw new System.Exception( "Grid control does not exist in the applied template." );
+        _myGrid.SizeChanged += _myGrid_SizeChanged;
+        if (_myGrid is null)
+            throw new System.Exception( "Grid control does not exist in the applied template." );
+        _myColumn = _myGrid.ColumnDefinitions[1];
+        //_myColumn = Template.FindName( "PART_Column", this ) as ColumnDefinition;
+        //if (_myColumn is null)
+        //    throw new System.Exception( "ColumnDefinition control does not exist in the applied template." );
+        _myTextBlock = Template.FindName( "PART_WebPageTitle", this ) as TextBlock;
+        if (_myTextBlock is null)
             throw new System.Exception( "WebPageTitle control does not exist in the applied template." );
+        _myTextBlock.SizeChanged += WebPageTitle_SizeChanged;
 
         base.OnApplyTemplate();
+    }
+
+    private void _myGrid_SizeChanged( object sender, SizeChangedEventArgs e ) {
+        if (_myTextBlock is not null) {
+            _myTextBlock.OpacityMask = null;
+            _myTextBlock.InvalidateVisual();
+            _myTextBlock.InvalidateProperty( TextBlock.ActualWidthProperty );
+            _myTextBlock.InvalidateMeasure();
+            _myTextBlock.InvalidateArrange();
+            ActivateFader();
+        }
     }
     #endregion
 

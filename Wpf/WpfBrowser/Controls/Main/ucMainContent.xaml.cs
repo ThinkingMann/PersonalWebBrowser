@@ -12,7 +12,7 @@ namespace WpfBrowser.Controls.Main;
 /// <summary>
 /// Interaction logic for MainContent.xaml
 /// </summary>
-public partial class ucMainContent : UserControl, INotifyPropertyChanged {
+public partial class ucMainContent : UserControl, INotifyPropertyChanged, IMainContent {
     private static string HomePage = "https://github.com/ThinkingMann/PersonalWebBrowser";
     private static string DefaultSearchPage = "https://www.google.com/search?q={0}&oq={1}&aqs=pwb..{2}&ie=UTF-8";
 
@@ -62,7 +62,7 @@ public partial class ucMainContent : UserControl, INotifyPropertyChanged {
         if (Tabber.SelectedItem is null)
             GotoHomePage( true );
 
-        // Test Code
+        #region // Test Code
         Tabber.CreateNewTab( "www.google.com", false );
         Tabber.CreateNewTab( "www.hotmail.com", false );
         Tabber.CreateNewTab( "www.msn.com", false );
@@ -70,7 +70,7 @@ public partial class ucMainContent : UserControl, INotifyPropertyChanged {
         Tabber.CreateNewTab( "www.e-devlet.gov.tr", false );
         Tabber.CreateNewTab( "www.turkiye.gov.tr", false );
         Tabber.CreateNewTab( "www.nasa.gov", false );
-        Tabber.CreateNewTab( "www.facebook.gov", false );
+        Tabber.CreateNewTab( "www.facebook.com", false );
         Tabber.CreateNewTab( "www.youtube.com", false );
         Tabber.CreateNewTab( "www.amazon.com", false );
         Tabber.CreateNewTab( "www.gitlab.com", false );
@@ -94,6 +94,19 @@ public partial class ucMainContent : UserControl, INotifyPropertyChanged {
         Tabber.CreateNewTab( "notalwaysright.com", false );
         Tabber.CreateNewTab( "www.flashbynight.com/drench", false );
         Tabber.CreateNewTab( "riverstyx.com", false );
+
+        Tabber.CreateNewTab( "www.jetbrains.com", false );
+        Tabber.CreateNewTab( "medium.com", false );
+        Tabber.CreateNewTab( "openai.com", false );
+        Tabber.CreateNewTab( "cloud.google.com", false );
+        Tabber.CreateNewTab( "azure.microsoft.com", false );
+        Tabber.CreateNewTab( "www.wikipedia.org", false );
+        Tabber.CreateNewTab( "www.gnoosic.com", false );
+        Tabber.CreateNewTab( "www.patatap.com", false );
+        Tabber.CreateNewTab( "notalwaysright.com", false );
+        Tabber.CreateNewTab( "www.flashbynight.com/drench", false );
+        Tabber.CreateNewTab( "riverstyx.com", false );
+        #endregion
 
         RaiseTabItemChangedEvents();
     }
@@ -140,6 +153,10 @@ public partial class ucMainContent : UserControl, INotifyPropertyChanged {
     bool isInAddNewTabMethod = false;
 
     private void abbNewTab_Click( object sender, System.Windows.RoutedEventArgs e ) {
+        CreateNewTabItem();
+    }
+
+    public void CreateNewTabItem() {
         isInAddNewTabMethod = true;
         IsNewPageMode = true;
         newItemsGroup = Tabber.SelectedTabGroup;

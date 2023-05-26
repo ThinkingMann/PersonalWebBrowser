@@ -7,19 +7,26 @@ namespace PWB_CCLibrary.UserControls;
 /// Interaction logic for ucWindowButtons.xaml
 /// </summary>
 public partial class ucWindowButtons : UserControl {
+    Window? owner;
     public ucWindowButtons() {
         InitializeComponent();
+        Loaded += UcWindowButtons_Loaded;
+    }
+
+    private void UcWindowButtons_Loaded( object sender, RoutedEventArgs e ) {
+        owner = Window.GetWindow( this );
     }
 
     private void btnClose_Click( object sender, RoutedEventArgs e ) {
-        Window.GetWindow( this ).Close();
+        owner!.Close();
     }
 
     private void btnMaximize_Click( object sender, RoutedEventArgs e ) {
-        Window.GetWindow( this ).WindowState = WindowState.Maximized;
+        var ws = owner.WindowState;
+        owner!.WindowState = ws == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
     }
 
     private void btnMinimize_Click( object sender, RoutedEventArgs e ) {
-        Window.GetWindow( this ).WindowState = WindowState.Minimized;
+        owner!.WindowState = WindowState.Minimized;
     }
 }

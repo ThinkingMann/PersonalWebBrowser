@@ -17,7 +17,11 @@
   - [ ] sayfa bir link ile değiştiğinde hem geçmiş hem de adres bar güncellenebilmeli
   - [ ] Full screen istendiğinde full screen çalıştırma özelliği eklenmeli.
 - [ ] Refresh butonu çalışır hale getirilmelidir.
-- [ ] TabGroup'ları window'un caption bar'ına yerleştirilecek
+- [X] TabGroup'ları window'un caption bar'ına yerleştirilecek
+  - [X] TabGroup'larının drag&drop özelliği yapılmalı ve yer değiştirebilir hale gelmeliler.
+  - [ ] TabGroup'ları drag drop esnasında belirlenen alanın dışına çıktığında yeni pencere açılmalı
+  - [ ] TabGroup'ları window olarak gezerken diğer bir pencereye drop olabilmelidir.
+  - [X] Teb bir TabGroup varken Drag&Drop yerine pencere taşınmalıdır.
 
 ## In the Future
 

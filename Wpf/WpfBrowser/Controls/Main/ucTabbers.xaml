@@ -4,35 +4,41 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfBrowser.Controls.Main"
-             mc:Ignorable="d" 
              xmlns:cc="clr-namespace:PWB_CCLibrary.Controls;assembly=PWB_CCLibrary"
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <!-- ToolBar -->
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+        <Border Background="Transparent" BorderThickness="0,0,1,0" BorderBrush="LightGray" Padding="0"
+                Grid.RowSpan="3" />
 
-        <!-- Row 0: ComboBox to show TabGroups (We will think TabGroups as Browser Windows. Each window as a tab group) -->
-        <ComboBox x:Name="cmbTabGroups" Margin="2,2,0,2" Height="25" DisplayMemberPath="Name" />
-
-        <!-- Row 1: ListBox to show Tabs' names (Each tab is a web page) -->
-        <Grid Grid.Row="2">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition />
+                <!-- ToolBar -->
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <ItemsControl x:Name="PinnedItems" />
-            <Border Grid.Row="1" Margin="1,0,0,0">
-                <ScrollViewer VerticalScrollBarVisibility="Auto"
+
+            <!-- Row 0: ComboBox to show TabGroups (We will think TabGroups as Browser Windows. Each window as a tab group) -->
+            <ComboBox x:Name="cmbTabGroups" Margin="1,2,2,2" Height="25" DisplayMemberPath="Name" Visibility="Collapsed" />
+
+            <!-- Row 1: ListBox to show Tabs' names (Each tab is a web page) -->
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <ItemsControl x:Name="PinnedItems" />
+                <Border Grid.Row="1" Margin="0,0,0,0">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"
                               CanContentScroll="True"
                               Style="{StaticResource LeftScrollViewer}"
                               SnapsToDevicePixels="True">
-                    <ItemsControl x:Name="NormalItems" Grid.Row="1" />
-                </ScrollViewer>
-            </Border>
+                        <ItemsControl x:Name="NormalItems" Grid.Row="1" />
+                    </ScrollViewer>
+                </Border>
+            </Grid>
         </Grid>
+
     </Grid>
+    
 </UserControl>

@@ -12,12 +12,15 @@ namespace WpfBrowser.Controls.Main;
 /// <summary>
 /// Interaction logic for ucTabbers.xaml
 /// </summary>
-public partial class ucTabbers : UserControl {
+public partial class ucTabbers : UserControl, ITabber {
     public static readonly int MaxPinnedPageCount = 7;
 
-    public event SelectedTabItemChangedEventHandler? SelectionChanged;
+    public static int TabGroupCounter = 0;
 
-    public ObservableCollection<TabGroup> TabGroups = new ObservableCollection<TabGroup>();
+    public event SelectedTabItemChangedEventHandler? SelectionChanged;
+    public event SelectedTabGroupChangedEventHandler? SelectedGroupChanged;
+
+    public ObservableCollection<TabGroup> TabGroups { get; } = new ObservableCollection<TabGroup>();
 
     #region members and properties
     private PWB_TabItem? selectedItem = null;
@@ -37,36 +40,51 @@ public partial class ucTabbers : UserControl {
     private TabGroup? selectedTabGroup = null;
 
     public TabGroup? SelectedTabGroup => selectedTabGroup;
+
+    public void SetSelectedTabGroup( TabGroup tabGroup ) {
+        cmbTabGroups.SelectedItem = tabGroup;
+    }
+
+    public void RemoveTabGroup( TabGroup tg, TabGroup? newTabGroupToSelect ) {
+        TabGroups.Remove( tg );
+        if (newTabGroupToSelect is not null) {
+            cmbTabGroups.SelectedItem = newTabGroupToSelect;
+        }
+    }
     #endregion
 
     #region Class ctor..
     public ucTabbers() {
         InitializeComponent();
 
-        var tg = new TabGroup( "Main Group", IsPinOk, Item_TabItemSelected, Item_PinnedChanged, Item_CloseButtonPressed );
-        TabGroups.Add( tg );
-
         cmbTabGroups.ItemsSource = TabGroups;
         cmbTabGroups.SelectionChanged += CmbTabGroups_SelectionChanged;
-        cmbTabGroups.SelectedIndex = 0;
 
+        _ = AddNewTabGroup();
 
-
-        //for (int i = 0; i < 50; i++) {
-        //    selectedTabGroup?.NormalItems.Add( selectedTabGroup!.CreateNewTabItem() );
-        //}
-        //for (int i = 0; i < 10; i++) {
-        //    TabGroups[1].NormalItems.Add( TabGroups[1].CreateNewTabItem() );
-        //}
+        //cmbTabGroups.SelectedIndex = 0;
     }
     #endregion
 
+    public TabGroup AddNewTabGroup() {
+        var tg = new TabGroup( $"PWB Tab Group ({++TabGroupCounter})", IsPinOk, Item_TabItemSelected, Item_PinnedChanged, Item_CloseButtonPressed );
+        TabGroups.Add( tg );
+        cmbTabGroups.SelectedItem = tg;
+
+
+
+        return tg;
+    }
+
     private void CmbTabGroups_SelectionChanged( object sender, SelectionChangedEventArgs e ) {
+        var oldTabGroup = selectedTabGroup;
         ClearSelection();
         if (selectedTabGroup is not null) {
             ClearAllSelections();
         }
         selectedTabGroup = cmbTabGroups.SelectedItem as TabGroup;
+        SelectedGroupChanged?.Invoke( this, new SelectedTabGroupChangedEventArgs( oldTabGroup, selectedTabGroup ) );
+
         if (selectedTabGroup != null) {
             PinnedItems.ItemsSource = selectedTabGroup.PinnedItems;
             NormalItems.ItemsSource = selectedTabGroup.NormalItems;
@@ -133,12 +151,10 @@ public partial class ucTabbers : UserControl {
         if (sender is PWB_TabItem item) {
             if (item.IsPinned) {
                 selectedTabGroup?.NormalItems.Remove( item );
-                item.Margin = new Thickness( 2, 0, 0, 0 );
                 selectedTabGroup?.PinnedItems.Add( item );
                 return;
             }
             selectedTabGroup?.PinnedItems.Remove( item );
-            item.Margin = new Thickness( 1, 0, 0, 0 );
             NormalItems.Items.Add( item );
         }
     }

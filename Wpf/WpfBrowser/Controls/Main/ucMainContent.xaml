@@ -19,14 +19,14 @@
         </Grid.RowDefinitions>
 
         <!-- Row 0: Address Bar -->
-        <Grid Grid.Row="0" Background="Transparent">
+        <Grid Grid.Row="0" Background="Transparent" Margin="4,4,4,2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <cc:AddressBarButton x:Name="abbPreviousPage"
                                            Height="26" Width="26"
                                            Margin="3,0,0,0"
@@ -54,13 +54,13 @@
                                            />
             </StackPanel>
 
-            <browser:ucAddressBar x:Name="abTargetAddress" Height="30" Grid.Column="1" Margin="3,2"
+            <browser:ucAddressBar x:Name="abTargetAddress" Height="30" Grid.Column="1" Margin="3,0"
                                       SecureImageKey="drwLockButton01"
                                       ReloadImageKey="drwRefreshButton"
                                       TargetAddressChanged="abTargetAddress_TargetAddressChanged"
                                       />
 
-            <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Left" Margin="0,0,3,0">
+            <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Left">
                 <cc:AddressBarButton x:Name="abbNewTab"
                                            Height="26" Width="26"
                                            Margin="3,0,0,0"
@@ -86,7 +86,7 @@
             <local:ucTabbers x:Name="Tabber" Background="Transparent" />
 
             <!-- Column 1: Web Page Viewer -->
-            <GridSplitter Width="3" Grid.Column="1" HorizontalAlignment="Left" Margin="0,2" />
+            <GridSplitter Width="3" Grid.Column="1" BorderBrush="White" Background="White" HorizontalAlignment="Left" Margin="0,2" Focusable="False" />
             <ContentControl x:Name="ContentCtrl" Grid.Column="1" Margin="3,0,0,0" />
 
             <!-- Column 2: Helpers (Displayed if required) -->

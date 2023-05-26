@@ -5,14 +5,14 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:PWB_TabItem">
-                    <Button x:Name="PART_MainButton" BorderThickness="0" Background="Transparent"
-                            Padding="0" Margin="0,1" 
-                            HorizontalContentAlignment="Stretch"
-                            VerticalContentAlignment="Stretch" ToolTip="{TemplateBinding Address}">
-                        <Border x:Name="border" BorderThickness="1" BorderBrush="Black" 
-                            Background="LightGray" 
-                            Height="30" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <Grid HorizontalAlignment="Stretch">
+                    <Grid>
+                        <Border x:Name="border" BorderThickness="1,1,0,1" BorderBrush="LightGray" 
+                            Background="#FFF3F3F3"
+                            CornerRadius="6,0,0,6"
+                            Padding="4,3,2,3"
+                            Margin="0,0,1,0"
+                            Height="32" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Grid x:Name="PART_Grid" HorizontalAlignment="Stretch">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition />
@@ -20,16 +20,21 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <Viewbox Grid.Column="0" Width="20" Height="20" Margin="2,0,0,0">
+                                <Viewbox Grid.Column="0" Width="16" Height="16">
                                     <Image x:Name="PART_WebPageLogo" />
                                 </Viewbox>
 
-                                <TextBlock x:Name="PART_WebPageTitle" Grid.Column="1" Text="{TemplateBinding PageTitle}" Margin="2,0,2,0"
-                                           VerticalAlignment="Center" />
+                                <!--<Border BorderThickness="0" Background="Red" Grid.Column="1" />-->
+                                <TextBlock x:Name="PART_WebPageTitle" Grid.Column="1" 
+                                       Text="{TemplateBinding PageTitle}" 
+                                       Margin="2,0,2,0"
+                                       HorizontalAlignment="Stretch" VerticalAlignment="Center" />
 
                                 <Button x:Name="PART_PinButton" Grid.Column="2" BorderThickness="1" Visibility="Visible"
-                                        Margin="0,0,1,0"
-                                        Width="18" Height="18">
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    Margin="0,0,1,0"
+                                    Width="16" Height="16">
                                     <Button.Content>
                                         <Viewbox>
                                             <Image x:Name="PART_PinImage" Source="pack://application:,,,/PWB_CCLibrary;component/Assets/pin.png" />
@@ -38,8 +43,9 @@
                                 </Button>
 
                                 <Button x:Name="PART_CloseButton" Grid.Column="3" BorderThickness="1" Visibility="Visible"
-                                        Margin="0,0,1,0"
-                                        Width="18" Height="18">
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    Width="16" Height="16">
                                     <Button.Content>
                                         <Viewbox>
                                             <Image x:Name="PART_CloseImage" Source="pack://application:,,,/PWB_CCLibrary;component/Assets/Close.png" />
@@ -48,11 +54,31 @@
                                 </Button>
                             </Grid>
                         </Border>
-                    </Button>
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" TargetName="border"  Value="Tomato" />
+                            <Setter Property="Background" TargetName="border">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStop Offset="0" Color="#FFFF6666" />
+                                            <GradientStop Offset=".8" Color="White" />
+                                            <GradientStop Offset="1" Color="White" />
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Margin" TargetName="border"  Value="0,0,0,0" />
                         </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsSelected" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter Property="Background" TargetName="border"  Value="#FFDCECFC" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="False" />

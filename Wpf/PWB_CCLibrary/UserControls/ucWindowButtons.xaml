@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PWB_CCLibrary.UserControls"
+             VerticalAlignment="Top"
+             HorizontalAlignment="Right"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -137,8 +139,8 @@
                     IsTabStop="False"
                     Focusable="False"
                     Click="btnMinimize_Click">
-            <Viewbox Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Path Data="{StaticResource geoMinimizeButton01}" Fill="{StaticResource Path.Static.Fill}" />
+            <Viewbox Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-5,-2,0,5">
+                <Path Data="{StaticResource geoMinimizeButton02}" Fill="{StaticResource Path.Static.Fill}" />
             </Viewbox>
         </Button>
         <Button Style="{DynamicResource CaptionButtonStyle}"
@@ -149,8 +151,8 @@
                     IsTabStop="False"
                     Focusable="False"
                     Click="btnMaximize_Click">
-            <Viewbox Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Path Data="{StaticResource geoMaximizeButton01}" Fill="{StaticResource Path.Static.Fill}" />
+            <Viewbox Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-5,-2,0,5">
+                <Path Data="{StaticResource geoMaximizeButton02}" Fill="{StaticResource Path.Static.Fill}" />
             </Viewbox>
         </Button>
         <Button Style="{DynamicResource CloseButtonStyle}"
@@ -161,8 +163,8 @@
                     IsTabStop="False"
                     Focusable="False"
                     Click="btnClose_Click">
-            <Viewbox Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Path Data="{StaticResource geoCloseButton01}" Fill="{StaticResource Path.Static.Fill}" />
+            <Viewbox Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-5,-2,0,5">
+                <Path Data="{StaticResource geoCloseButton03}" Fill="{StaticResource Path.Static.Fill}" />
             </Viewbox>
         </Button>
     </StackPanel>
