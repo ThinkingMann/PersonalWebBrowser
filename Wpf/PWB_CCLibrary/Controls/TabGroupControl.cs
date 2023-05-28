@@ -269,6 +269,7 @@ public class TabGroupControl : Control {
                             return;
                         isDragging = true;
                         if (DragMode != DragModes.Window) {
+                            SetInnerGridSize();
                             if (tgb.TabPosition > 0)
                                 borders[tgb.TabPosition - 1].Visibility = Visibility.Visible;
                             borders[tgb.TabPosition].Visibility = Visibility.Visible;
@@ -343,7 +344,6 @@ public class TabGroupControl : Control {
                 _thisWindow.Top += diffY;
                 // TODO: Eğer diğer bir PWB'nin outer grid'ine girerse tgb'nin yerleşimi orada yapılacaktır.
             } else {
-                SetInnerGridSize();
                 #region Moving the DraggingTabGroup
                 var newPos = e.GetPosition( _thisWindow );
                 var objPos = e.GetPosition( _myInnerGrid );
