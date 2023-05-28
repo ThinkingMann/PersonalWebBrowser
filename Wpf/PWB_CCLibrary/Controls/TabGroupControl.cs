@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Shell;
 using System.Windows.Threading;
 
@@ -121,18 +122,32 @@ public class TabGroupControl : Control {
     private void SetInnerGridMaxSize()
         => _myInnerGrid!.MaxWidth = this.ActualWidth - (_myButton!.ActualWidth + 10);
     private void SetInnerGridSize() {
-        var width = Math.Min( _myInnerGrid.MaxWidth, _myInnerGrid.ColumnDefinitions.Count * DefaultWidth );
+        var width = Math.Min( _myInnerGrid!.MaxWidth, _myInnerGrid.ColumnDefinitions.Count * DefaultWidth );
         _myInnerGrid!.Width = width;
         var columnWidth = width / _myInnerGrid.ColumnDefinitions.Count;
+        foreach (var tgb in positions.Values) {
+            tgb.Width = columnWidth;
+            tgb.MinWidth = columnWidth;
+            tgb.MaxWidth = columnWidth;
+        }
         foreach (var clm in _myInnerGrid.ColumnDefinitions) {
             clm.Width = new GridLength( columnWidth );
+            clm.MinWidth = columnWidth;
+            clm.MaxWidth = columnWidth;
         }
     }
     private void SetInnerGridTempSize( double defWidth ) {
         _myInnerGrid!.Width = _myInnerGrid.ColumnDefinitions.Count * defWidth;
         var columnWidth = defWidth / _myInnerGrid.ColumnDefinitions.Count;
+        foreach (var tgb in positions.Values) {
+            tgb.Width = columnWidth;
+            tgb.MinWidth = columnWidth;
+            tgb.MaxWidth = columnWidth;
+        }
         foreach (var clm in _myInnerGrid.ColumnDefinitions) {
             clm.Width = new GridLength( columnWidth );
+            clm.MinWidth = columnWidth;
+            clm.MaxWidth = columnWidth;
         }
     }
     #endregion
@@ -207,6 +222,7 @@ public class TabGroupControl : Control {
         _myInnerGrid!.Children.Add( tgb );
     }
 
+    #region Separator Visibilities
     private void Tgb_MouseLeave( object sender, System.Windows.Input.MouseEventArgs e ) {
         if (e.Source is TabGroupButton tgb && !tgb.IsSelected) {
             if (tgb.TabPosition > 0)
@@ -223,7 +239,9 @@ public class TabGroupControl : Control {
             borders[tgb.TabPosition].Visibility = Visibility.Collapsed;
         }
     }
+    #endregion
 
+    #region Dragging and Dropping of a TabGroupButton
     TabGroupButton? draggingButton = null;
     bool isDragging = false;
     Point mousePos;
@@ -325,13 +343,14 @@ public class TabGroupControl : Control {
                 _thisWindow.Top += diffY;
                 // TODO: Eğer diğer bir PWB'nin outer grid'ine girerse tgb'nin yerleşimi orada yapılacaktır.
             } else {
+                SetInnerGridSize();
                 #region Moving the DraggingTabGroup
                 var newPos = e.GetPosition( _thisWindow );
                 var objPos = e.GetPosition( _myInnerGrid );
                 var diff = newPos.X - mousePos.X;
                 if (newPos.X < 0 || objPos.X < -7 || newPos.Y < 0 || objPos.X > _myInnerGrid!.ActualHeight || objPos.Y > _myInnerGrid!.ActualWidth) {
                     // TODO: Burada yeni pencere açılacaktır...
-                    System.Diagnostics.Debug.WriteLine( $"Open A New Window: objPos ({objPos}), newPos ({newPos})" );
+                    //System.Diagnostics.Debug.WriteLine( $"Open A New Window: objPos ({objPos}), newPos ({newPos})" );
                 }
                 var leftMargin = (left += diff);
                 if (leftMargin < 0) leftMargin = 0;
@@ -349,11 +368,155 @@ public class TabGroupControl : Control {
             e.Handled = true;
         }
     }
+    #endregion
 
+    #region Switching TabGroupButtons with Animation while Drag&Drop operation
     bool isSwitching = false;
+    private void SwitchTabsPositions( TabGroupButton draggingButton, TabGroupButton item ) {
+        Border? animator;
+        ColumnDefinition draggingTGBNewPosCD, draggingTGBOrgCD;
+        Storyboard? storyboard1;
+        int targetPos = -1;
+        TabGroupButton realTarget;
+        //int storyCounter = 0;
+
+        if (isSwitching /*|| (switchingMaster == draggingButton && switchingTarget == item)*/) return;
+        //System.Diagnostics.Debug.WriteLine( "" );
+        //System.Diagnostics.Debug.WriteLine( $"Starting: {++storyCounter}" );
+        //System.Diagnostics.Debug.WriteLine( $"SwitchTabsPositions[1-1]: dragging:{draggingButton.TabPosition}; item:{item.TabPosition}" );
+        //System.Diagnostics.Debug.WriteLine( $"SwitchTabsPositions[1-2]: dragging:{draggingButton?.GetValue( Grid.ColumnProperty )}; item:{item.GetValue( Grid.ColumnProperty )}" );
+        isSwitching = true;
+
+        realTarget = item;
+        targetPos = item.TabPosition;
+        #region determining object to switch
+        Thickness margin;
+        var inWhich = 0;
+        var count = 0;
+        Border? separator;
+        if (draggingButton.TabPosition > item.TabPosition) {
+            inWhich = 1;
+            separator = borders[item.TabPosition];
+            //foreach (var tgb in positions.Values) {
+            //    if (tgb == item || (targetPos <= tgb.TabPosition && tgb.TabPosition < draggingButton.TabPosition)) {
+            //        if (tgb.TabPosition > targetPos)
+            //            realTarget = tgb;
+            //        item.SetValue( Grid.ColumnProperty, ++tgb.TabPosition );
+            //        count++;
+            //    }
+            //}
+
+            margin = new Thickness( 0, 0, draggingButton.ActualWidth, 0 );
+        } else {
+            inWhich = 2;
+            separator = borders[draggingButton.TabPosition];
+            //foreach (var tgb in positions.Values) {
+            //    if (tgb == item || (targetPos >= tgb.TabPosition && tgb.TabPosition > draggingButton.TabPosition)) {
+            //        if (tgb.TabPosition < targetPos)
+            //            realTarget = tgb;
+            //        item.SetValue( Grid.ColumnProperty, --tgb.TabPosition );
+            //        count++;
+            //    }
+            //}
+
+            margin = new Thickness( draggingButton.ActualWidth, 0, 0, 0 );
+        }
+        #endregion
+
+        #region Setting the switching values
+        // Eski column remove ediliyor
+        _myInnerGrid!.ColumnDefinitions.RemoveAt( draggingButton.TabPosition );
+        // Aynı yere bir column ekleniyor
+        draggingTGBOrgCD = new MyColumnDef( _myInnerGrid, draggingButton.TabPosition );
+        draggingTGBOrgCD.MaxWidth = draggingButton.ActualWidth * 2;
+
+        // ReadTarger bu sütun'a taşınıyor.
+        realTarget.MinWidth = realTarget.ActualWidth;
+        realTarget.Margin = margin;
+        realTarget.SetValue( Grid.ColumnProperty, realTarget.TabPosition = draggingButton.TabPosition );
+
+        separator.Visibility = Visibility.Collapsed;
+
+        draggingTGBNewPosCD = _myInnerGrid.ColumnDefinitions[targetPos];
+        draggingTGBNewPosCD.Width = GridLength.Auto;
+        #region Creating Animator Border
+        animator = new Border() {
+            BorderThickness = new Thickness( 100 ),
+            Background = Brushes.Transparent,
+            Width = 0,
+            Height = 20,
+        };
+        animator.SetValue( Grid.ColumnProperty, targetPos );
+        _myInnerGrid.Children.Add( animator );
+        #endregion
+        #endregion
+
+
+        #region Starting the animation
+        TimeSpan animationDuration = TimeSpan.FromMilliseconds( 75 );
+        var da = new DoubleAnimation() {
+            To = draggingButton.ActualWidth,
+            Duration = animationDuration
+        };
+        var ta = new ThicknessAnimation() {
+            To = new Thickness( 0 ),
+            Duration = animationDuration
+        };
+        storyboard1 = new Storyboard();
+        storyboard1.Children.Add( ta );
+        storyboard1.Children.Add( da );
+        Storyboard.SetTarget( da, animator );
+        Storyboard.SetTargetProperty( da, new PropertyPath( "Width" ) );
+        Storyboard.SetTarget( ta, realTarget );
+        Storyboard.SetTargetProperty( ta, new PropertyPath( "Margin" ) );
+        storyboard1.Completed += ( s, e ) => {
+            separator.Visibility = Visibility.Visible;
+            //storyboard1!.Completed -= Storyboard1_Completed;
+            storyboard1 = null;
+            draggingTGBNewPosCD.MinWidth = draggingButton.ActualWidth;
+            draggingTGBNewPosCD.Width = GridLength.Auto;
+            _myInnerGrid!.Children.Remove( animator );
+            draggingTGBOrgCD.MaxWidth = DefaultWidth;
+            animator = null;
+            isSwitching = false;
+            //DispatcherTimer dt2 = new DispatcherTimer();
+            //dt2.Tick += ( sender, e ) => {
+            //    dt2.Stop();
+            //    System.Diagnostics.Debug.WriteLine( "" );
+            //    System.Diagnostics.Debug.WriteLine( $"SwitchTabsPositions[Wdt]: draggingTGBOrgCD:{draggingTGBOrgCD.ActualWidth}; item:{draggingTGBNewPosCD.ActualWidth}" );
+            //    System.Diagnostics.Debug.WriteLine( "" );
+            //    System.Diagnostics.Debug.WriteLine( $"SwitchTabsPositions[3-1]: dragging:{draggingButton?.TabPosition}; item:{realTarget.TabPosition}" );
+            //    System.Diagnostics.Debug.WriteLine( $"SwitchTabsPositions[3-2]: dragging:{draggingButton?.GetValue( Grid.ColumnProperty )}; item:{realTarget.GetValue( Grid.ColumnProperty )}" );
+            //    System.Diagnostics.Debug.WriteLine( "Finished" );
+            //    System.Diagnostics.Debug.WriteLine( "" );
+            //};
+            //dt2.Interval = TimeSpan.FromMilliseconds( 0 );
+            //dt2.Start();
+        };
+
+        //DispatcherTimer dt = new DispatcherTimer();
+        //dt.Tick += ( sender, e ) => {
+        //    System.Diagnostics.Debug.WriteLine( "" );
+        //    System.Diagnostics.Debug.WriteLine( $"SwitchTabsPositions[Wdt]: draggingTGBOrgCD:{draggingTGBOrgCD.ActualWidth}; item:{draggingTGBNewPosCD.ActualWidth}" );
+        //    System.Diagnostics.Debug.WriteLine( "" );
+        //    System.Diagnostics.Debug.WriteLine( $"SwitchTabsPositions[2-1]: dragging:{draggingButton.TabPosition}; item:{item.TabPosition}" );
+        //    System.Diagnostics.Debug.WriteLine( $"SwitchTabsPositions[2-2]: dragging:{draggingButton?.GetValue( Grid.ColumnProperty )}; item:{realTarget.GetValue( Grid.ColumnProperty )}" );
+        //    dt.Stop();
+        draggingButton!.SetValue( Grid.ColumnProperty, draggingButton.TabPosition = targetPos );
+        positions = positions.Values.ToDictionary( a => a.TabPosition, a => a );
+        storyboard1.Begin();
+        //};
+        //dt.Interval = TimeSpan.FromMilliseconds( 0 );
+        //dt.Start();
+        #endregion
+    }
+    #endregion
+
+    #region Animasyonsuz Drag&Drop Codları. Devre Dışıdır...
+#if false
     TabGroupButton switchingMaster, switchingTarget;
     ColumnDefinition column, toRemove;
-    private void SwitchTabsPositions( TabGroupButton draggingButton, TabGroupButton item ) {
+    private void SwitchTabsPositionsOld( TabGroupButton draggingButton, TabGroupButton item ) {
         if (isSwitching /*|| (switchingMaster == draggingButton && switchingTarget == item)*/) return;
         isSwitching = true;
 
@@ -432,6 +595,8 @@ public class TabGroupControl : Control {
         #endregion
         isSwitching = false;
     }
+#endif
+    #endregion
 
     #region TabGroupButton_EventHandlers
     private void Tgb_CloseRequested( object sender, Delegates.CloseRequestedEventArgs e ) {

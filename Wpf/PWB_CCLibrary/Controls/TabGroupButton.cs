@@ -167,9 +167,9 @@ public class TabGroupButton : Button {
 
     public Boolean IsMouseOverTheCloseButton => _myCloseButton!.IsMouseOver;
 
-    public Boolean IsMouseOverYou( Point pos ) => pos.X >= 0 && pos.X <= this.ActualWidth && pos.Y >= 0 && pos.Y <= this.ActualHeight;
-    public Boolean IsMouseYourLeftSide( Point pos ) => pos.X >= 0 && pos.X <= this.ActualWidth / 2 && pos.Y >= 0 && pos.Y <= this.ActualHeight / 2;
-    public Boolean IsMouseYourRightSide( Point pos ) => pos.X > this.ActualWidth / 2 && pos.X <= this.ActualWidth && pos.Y > this.ActualHeight / 2 && pos.Y <= this.ActualHeight;
+    public Boolean IsMouseOverYou( Point pos ) => pos.X >= 10 && pos.X <= this.ActualWidth - 10 && pos.Y >= 0 && pos.Y <= this.ActualHeight;
+    //public Boolean IsMouseYourLeftSide( Point pos ) => pos.X >= 0 && pos.X <= this.ActualWidth / 2 && pos.Y >= 0 && pos.Y <= this.ActualHeight / 2;
+    //public Boolean IsMouseYourRightSide( Point pos ) => pos.X > this.ActualWidth / 2 && pos.X <= this.ActualWidth && pos.Y > this.ActualHeight / 2 && pos.Y <= this.ActualHeight;
 
     //public void HideSeparator() => _mySeparator!.Visibility = Visibility.Collapsed;
     //public void ShowSeparator() => _mySeparator!.Visibility = Visibility.Visible;
